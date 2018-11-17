@@ -1,10 +1,22 @@
+import rp from 'request-promise';
+
 const validateGithubEmail = (email, cb) => {
-  setTimeout(function(){
-    if(email.length > 15) {
-      return cb('some error');
-    }
-    cb(null, true);
-  },1000);
+  const options = {
+    method: 'POST',
+    uri: 'http://github/checkemail',
+    body: {
+      email
+    },
+    json: true
+  };
+
+  rp(options)
+    .then((body) => {
+      cb(null, true);
+    })
+    .catch((err) => {
+      cb(err);
+    });
 };
 
 export default validateGithubEmail;
