@@ -2,6 +2,9 @@ import { expect } from 'chai';
 import Chance from 'chance';
 
 import validatePassword from '../auth/validatePassword';
+import validateEmail from '../auth/validateEmail';
+import validateGithubEmail from '../auth/validateGithubEmail';
+import { doesNotReject } from 'assert';
 
 const chance = new Chance();
 
@@ -21,6 +24,32 @@ describe('Auth module', function() {
       const isValid = validatePassword(testPassword);
       expect(isValid).to.equal(true);
     });
-    it('should email be macth with pattern');
+    it('should email be valid with correct email patternt', function() {
+      const testEmail = 'john.doe@gmail.com';
+      const isValid = validateEmail(testEmail);
+      expect(isValid).to.equal(true);
+    });
+    it('should email be valid with correct email patternt', function() {
+      const testEmail = 'john.doegmail.com';
+      const isValid = validateEmail(testEmail);
+      expect(isValid).to.equal(false);
+    });
+
+    it.only('should email be exist on github', function(done) {
+      const testEmail = 'jo@gmail.com';
+      validateGithubEmail(testEmail, (err, res) => {
+        expect(res).to.equal(true);
+        done();
+      });
+    });
+
+    it.only('should not email be exist on github', function(done) {
+      const testEmail = 'jo123456789012345@gmail.com';
+      validateGithubEmail(testEmail, (err, res) => {
+        expect(err).to.equal('some error');
+        done();
+      });
+    });
+
   });
 });
