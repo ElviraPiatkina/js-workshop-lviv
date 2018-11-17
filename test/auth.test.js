@@ -13,7 +13,7 @@ describe('Auth module', function() {
       expect(isValid).to.equal(false);
     });
     it('should password be valid if password >= 8', function() {
-      const isValid = validatePassword('12345678');
+      const isValid = validatePassword('1234');
       expect(isValid).to.equal(true);
     });
     it('should email be macth with pattern');
