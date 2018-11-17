@@ -4,6 +4,8 @@ import Chance from 'chance';
 import validatePassword from '../auth/validatePassword';
 import validateEmail from '../auth/validateEmail';
 import validateGithubEmail from '../auth/validateGithubEmail';
+import validateGithubEmailPromisify from '../auth/validateGithubEmailPromisify';
+
 import { doesNotReject } from 'assert';
 
 const chance = new Chance();
@@ -35,7 +37,7 @@ describe('Auth module', function() {
       expect(isValid).to.equal(false);
     });
 
-    it.only('should email be exist on github', function(done) {
+    it('should email be exist on github', function(done) {
       const testEmail = 'jo@gmail.com';
       validateGithubEmail(testEmail, (err, res) => {
         expect(res).to.equal(true);
@@ -43,13 +45,37 @@ describe('Auth module', function() {
       });
     });
 
-    it.only('should not email be exist on github', function(done) {
+    it('should not email be exist on github', function(done) {
       const testEmail = 'jo123456789012345@gmail.com';
       validateGithubEmail(testEmail, (err, res) => {
         expect(err).to.equal('some error');
         done();
       });
     });
+
+    it('should email be exist on github (promisify)', function(done) {
+      const testEmail = 'jo@gmail.com';
+      validateGithubEmailPromisify(testEmail)
+        .then(res  => {
+          expect(res).to.equal(true);
+          done();
+        });
+    });
+
+    it('should email not be exist on github (promisify)', function(done) {
+      const testEmail = 'jo123456789012345@gmail.com';
+      validateGithubEmailPromisify(testEmail)
+        .catch(err => {
+          expect(err).to.equal('some error');
+          done();
+        });
+    });
+
+    // it.skip('should email be exist on github (async)', async function() {
+    //   const testEmail = 'jo@gmail.com';
+    //   const res = await validateGithubEmailPromisify(testEmail); 
+    //   expect(res).to.equal(true);
+    // });
 
   });
 });
