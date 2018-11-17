@@ -23,6 +23,7 @@
   "scripts": {
     "start": "./node_modules/.bin/babel-node index.js",
     "start:dev": "nodemon ./node_modules/.bin/babel-node index.js",
-    "test": "./node_modules/.bin/mocha --compilers js:@babel/register test --watch"
+    "test": "./node_modules/.bin/mocha --compilers js:@babel/register test --watch",
+    "integration": "./node_modules/.bin/mocha --compilers js:@babel/register test/integration"
   }
 }
