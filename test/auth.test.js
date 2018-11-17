@@ -1,12 +1,12 @@
 import { expect } from 'chai';
 import Chance from 'chance';
 
-import validatePassword from '../auth/validatePassword';
-import validateEmail from '../auth/validateEmail';
-import validateGithubEmail from '../auth/validateGithubEmail';
-import validateGithubEmailPromisify from '../auth/validateGithubEmailPromisify';
-
-import { doesNotReject } from 'assert';
+import {
+  validatePassword,
+  validateEmail,
+  validateGithubEmail,
+  validateGithubEmailPromisify
+} from '../auth';
 
 const chance = new Chance();
 
@@ -63,8 +63,11 @@ describe('Auth module', function() {
     });
 
     it('should email not be exist on github (promisify)', function(done) {
-      const testEmail = 'jo123456789012345@gmail.com';
+      const testEmail = 'jow3232323232323232@gmail.com';
       validateGithubEmailPromisify(testEmail)
+        .then(() => {
+          done();
+        })
         .catch(err => {
           expect(err).to.equal('some error');
           done();
