@@ -5,7 +5,8 @@ import {
   validatePassword,
   validateEmail,
   validateGithubEmail,
-  validateGithubEmailPromisify
+  validateGithubEmailPromisify,
+  signup
 } from '../auth';
 
 const chance = new Chance();
@@ -80,5 +81,16 @@ describe('Auth module', function() {
     //   expect(res).to.equal(true);
     // });
 
+  });
+
+  describe.only('signup', function() {
+    it('should throw an error if password !== confirmation', function() {
+      const testSignup =  () => signup('john', 'john.doegmail.com', '12345678', '12345678');
+      expect(testSignup).to.throw();
+    });
+
+    it('should throw an error if password is invalid');
+    it('should throw an error if email is invalid');
+    it('should throw an error if password is equal to email');
   });
 });
