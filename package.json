@@ -1,0 +1,14 @@
+{
+  "name": "js-workshop-lviv",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/jscodegeek/js-workshop-lviv.git",
+  "license": "MIT",
+  "dependencies": {
+    "nodemon": "^1.18.6"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "start:dev": "nodemon index.js"
+  }
+}
