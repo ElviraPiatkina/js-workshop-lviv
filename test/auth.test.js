@@ -1,6 +1,8 @@
 import { expect } from 'chai';
 import Chance from 'chance';
 
+import sinon from 'sinon';
+
 import {
   validatePassword,
   validateEmail,
@@ -8,6 +10,8 @@ import {
   validateGithubEmailPromisify,
   signup
 } from '../auth';
+
+import { User } from '../models';
 
 const chance = new Chance();
 
@@ -83,14 +87,31 @@ describe('Auth module', function() {
 
   });
 
-  describe.only('signup', function() {
+  describe('signup', function() {
     it('should throw an error if password !== confirmation', function() {
       const testSignup =  () => signup('john', 'john.doegmail.com', '12345678', '12345678');
-      expect(testSignup).to.throw();
+      expect(testSignup).to.throw('Email is invalid');
     });
 
+    // todo practice
     it('should throw an error if password is invalid');
     it('should throw an error if email is invalid');
     it('should throw an error if password is equal to email');
+
+    it.only('should create user with correct params', function(done) {
+      sinon.stub(User, "create").resolves({
+        name: 'john', email: 'john.doe@gmail.com', passwordDigest: '12345678'
+      });
+      signup('john', 'john.doe@gmail.com', '12345678', '12345678')
+        .then(res => {
+          expect(res).to.be.deep.equal({
+            name: 'john',
+            email: 'john.doe@gmail.com',
+            passwordDigest: '12345678'
+          });
+          expect(User.create.calledOnce).to.be.equal(true);
+          done();
+        });
+    });
   });
 });

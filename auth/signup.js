@@ -1,4 +1,5 @@
 import { validatePassword, validateEmail } from '.';
+import { User } from '../models';
 
 const signup = (name = null, email, password, passwordConfirmation) => {
   if(!validateEmail(email)) {
@@ -16,6 +17,8 @@ const signup = (name = null, email, password, passwordConfirmation) => {
   if(password === email) {
     throw new Error('Password is equal to email');
   }
+
+  return User.create({name, email, passwordDigest: () => password.reverse() });
 };
 
 export default signup;
